@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript Assignment</title>
+</head>
+<body>
+<h1>JavaScript Assignment</h1>
+
+<p>Use JavaScript and jQuery and complete the five parts below.</p>
+
+<h2>Part 1</h2>
+<p>Every time the user hits button below, print to the console "Hello."</p>
+<form>
+    <input type="button" name="button1" id="button1" value="Button 1"><br />
+</form>
+
+<h2>Part 2</h2>
+<p>Every time the user hits button below, fetch the values in fields 1
+    and 2, add them (don't concatenate), and put them in field 3.</p>
+<form>
+    <input type="text" name="field1" id="field1" value="1"> +
+    <input type="text" name="field2" id="field2" value="1"> =
+    <input type="text" name="field3" id="field3" value=""><br />
+    <input type="button" name="button2" id="button2" value="Button 2"><br />
+</form>
+
+<h2>Part 3</h2>
+<p id="paragraphToHide">Every time the user hits button below, hide this paragraph. If
+    It is already hidden, then show it.</p>
+<p>See <a href='http://stackoverflow.com/questions/178325/how-do-i-check-if-an-element-is-hidden-in-jquery'>this link to
+    understand test if an item is hidden</a>.</p>
+<form>
+    <input type="button" name="button3" id="button3" value="Button 3"><br />
+</form>
+
+<h2>Part 4</h2>
+<p>Print to the console "OK" or "Bad" if the phone number fits
+    the reg ex pattern of 555-555-5555. (Doesn't have to be 5's)</p>
+<form>
+    <input type="text" name="phoneField" id="phoneField" value="555-555-5555"><br />
+    <input type="button" name="button4" id="button4" value="Button 4">
+</form>
+
+<h2>Part 5</h2>
+<p>Grab the form fields before, and then form and print to the console
+    a JSON request. The output should look like:</p>
+<pre>{"firstName":"Paul","lastName":"Craven","email":"paul.craven@simpson.edu"}</pre>
+<form>
+    First name: <input type="text" name="firstName" id="firstName"><br />
+    Last name:<input type="text" name="lastName" id="lastName"><br />
+    Email: <input type="email" name="email" id="email"><br />
+    <input type="button" name="button4" id="button5" value="Button 5">
+</form>
+
+<!-- Load our scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="javascript_assignment.js"></script>
+</body>
+</html>
