@@ -37,7 +37,7 @@ public class PersonDAO {
             conn = DBHelper.getConnection();
 
             // This is a string that is our SQL query.
-            String sql = "select id, first, last from person";
+            String sql = "SELECT id, first, last, email, phone, birthday FROM person";
 
             // If you had parameters, it would look something like
             // String sql = "select id, first, last, phone from person where id = ?";
@@ -62,6 +62,9 @@ public class PersonDAO {
                 person.setId(rs.getInt("id"));
                 person.setFirst(rs.getString("first"));
                 person.setLast(rs.getString("last"));
+                person.setEmail(rs.getString("email"));
+                person.setPhone((rs.getString("phone")));
+                person.setBirthday(rs.getString("birthday"));
 
                 // Add this person to the list so we can return it.
                 list.add(person);
@@ -74,7 +77,12 @@ public class PersonDAO {
             // Ok, close our result set, statement, and connection
             try { rs.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
             try { stmt.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
-            try { conn.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+
+            try {
+                conn.close();
+            } catch (Exception e)
+            {
+                log.log(Level.SEVERE, "Error", e ); }
         }
         // Done! Return the results
         return list;
