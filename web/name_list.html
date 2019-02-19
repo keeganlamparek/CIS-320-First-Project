@@ -65,11 +65,27 @@
             </div>
             <div class="modal-body">
                 <form id="my-form" name="my-form">
-                    <div class="form-group">
-                        <label for="firstName">First Name:</label> <input type="hidden" id="id" name="id" class="form-control"><br>
-                        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name"><br>
-                        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name"><br>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Email address"><br>
+                    <div id="formValidation" class="form-group" >
+                        <div id="firstNameDiv" class="form-group">
+                            <label class="control-label" for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First name" />
+                        </div>
+                        <div id="lastNameDiv" class="form-group has-feedback">
+                            <label class="control-label" for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" />
+                        </div>
+                        <div id="emailDiv">
+                            <label class="control-label" for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Email address" />
+                        </div>
+                        <div id="phoneNumberDiv">
+                            <label class="control-label" for="phoneNumber">Phone Number: </label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Phone Number" />
+                        </div>
+                        <div id="birthdayDiv">
+                            <label class="control-label" for="birthday">Birthday: </label>
+                            <input type="date" id="birthday" name="birthday" class="form-control" placeholder="Birthday" />
+                        </div>
                     </div>
                 </form>
             </div>
