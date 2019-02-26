@@ -15,14 +15,14 @@ function reload() {
     );
 }
 function updateTable(jsonData){
-    $("#datatable tr").remove();
+    $(".removeable").remove();
     var myTable = $("#datatable tr:last");
 
     for(var i = 0; i < jsonData.length; i++){
 
         var formatPhone = jsonData[i].phone;
         formatPhone  = formatPhone.substring(0, 3) + "-" + formatPhone.substring(3, 6) + "-" + formatPhone.substring(6, 10);
-        myTable.after("<tr><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td></tr>");
+        myTable.after("<tr class='removeable'><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td></tr>");
     }
 
 }
