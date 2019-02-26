@@ -13,4 +13,14 @@
         <url-pattern>/api/name_list_get</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>NameListEdit</servlet-name>
+        <servlet-class>edu.simpson.cis320.NameListEdit</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NameListEdit</servlet-name>
+        <url-pattern>/api/name_list_edit</url-pattern>
+    </servlet-mapping>
+
 </web-app>
