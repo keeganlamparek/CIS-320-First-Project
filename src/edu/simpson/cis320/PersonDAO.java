@@ -55,6 +55,43 @@ public class PersonDAO {
         }
     }
 
+    public static void deletePerson(int id) {
+        log.log(Level.FINE, "Delete person");
+
+        try {
+            // Get our database connection
+            connection = DBHelper.getConnection();
+            // This is a string that is our SQL query.
+            String sql = "DELETE FROM person WHERE id = ?";
+
+            // If you had parameters, it would look something like
+            // String sql = "select id, first, last, phone from person where id = ?";
+
+            // Create an object with all the info about our SQL statement to run.
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
+
+        }
+        catch (SQLException se) {
+            log.log(Level.SEVERE, "SQL Error", se ); }
+        catch (Exception e) {
+            log.log(Level.SEVERE, "Error", e ); }
+
+        finally {
+            // Ok, close our result set, statement, and connection
+            try { rs.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+            try { stmt.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+            try {
+                connection.close();
+            } catch (Exception e)
+            {
+                log.log(Level.SEVERE, "Error", e ); }
+        }
+    }
+
+
+
     public static List<Person> getPeople() {
         log.log(Level.FINE, "Get people");
 

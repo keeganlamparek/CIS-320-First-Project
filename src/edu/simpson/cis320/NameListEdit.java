@@ -1,16 +1,32 @@
 package edu.simpson.cis320;
 import java.io.IOException;
-
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.google.gson.Gson;
-
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet(name = "NameListEdit")
 public class NameListEdit extends javax.servlet.http.HttpServlet {
+
+    private Pattern firstNamePattern;
+    private Pattern lastNamePattern;
+    private Pattern emailPattern;
+    private Pattern phonePattern;
+    private Pattern birthdayPattern;
+
+
+
+    public NameListEdit() {
+        firstNamePattern = Pattern.compile("^[a-zA-Z'é]{2,45}$");
+        lastNamePattern = Pattern.compile("^[a-zA-Z'é]{2,45}$");
+        emailPattern = Pattern.compile("^[a-zA-z]{1,127}@[a-zA-z.]{1,127}.(com|net|edu)$");
+        phonePattern = Pattern.compile("^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$");
+        birthdayPattern = Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
+
+    }
+
+
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         // You can output in any format, text/JSON, text/HTML, etc. We'll keep it simple
         response.setContentType("text/plain");
@@ -39,7 +55,17 @@ public class NameListEdit extends javax.servlet.http.HttpServlet {
         out.println("Object test: "+ fromJson.getEmail());
         out.println("Object test: "+ fromJson.getPhone());
         out.println("Object test: "+ fromJson.getBirthday());
-        PersonDAO.setPeople(fromJson);
+
+        Matcher firstNameMatcher = firstNamePattern.matcher(fromJson.getFirst());
+        Matcher lastNameMatcher = lastNamePattern.matcher(fromJson.getLast());
+        Matcher emailMatcher = emailPattern.matcher(fromJson.getEmail());
+        Matcher phoneMatcher = phonePattern.matcher(fromJson.getPhone());
+        Matcher birthdayMatcher = birthdayPattern.matcher(fromJson.getBirthday());
+
+        if (firstNameMatcher.find() && lastNameMatcher.find() && emailMatcher.find() && phoneMatcher.find()
+        && birthdayMatcher.find()){
+            PersonDAO.setPeople(fromJson);
+        }
 
     }
 

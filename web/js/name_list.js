@@ -22,8 +22,10 @@ function updateTable(jsonData){
 
         var formatPhone = jsonData[i].phone;
         formatPhone  = formatPhone.substring(0, 3) + "-" + formatPhone.substring(3, 6) + "-" + formatPhone.substring(6, 10);
-        myTable.after("<tr class='removeable'><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td></tr>");
+        myTable.after("<tr class='removeable'><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td>" + "<td><button type='button' name='delete' class='deleteButton btn' value='" + jsonData[i].id + "'>Delete</button></td>" + "</tr>");
     }
+    var deleteButtons = $('.deleteButton');
+    deleteButtons.on("click", deleteItem);
 
 }
 
@@ -60,6 +62,14 @@ addItemButton.on("click", showDialogAdd);
 
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", validateChanges);
+
+function deleteItem(e) {
+    console.debug(e.target.value);
+    var data = {
+      "id" : e.target.value
+    };
+    jqueryPostJSONButtonAction(data, "delete");
+}
 
 function validateChanges() {
 
@@ -133,22 +143,27 @@ function validateChanges() {
                 phone: phone.val(),
                 birthday: birthday.val()
         };
-        jqueryPostJSONButtonAction(data)
+        jqueryPostJSONButtonAction(data, "edit");
 
     }
 
 
 
     else{
-        console.log("All field must be validated before submitting.")
+        console.log("All field must be validated before submitting.");
     }
 
 }
 
 <!-- AJAX Post using JSON data -->
-function jqueryPostJSONButtonAction(dataToServer) {
+function jqueryPostJSONButtonAction(dataToServer, action) {
+    if (action === "edit") {
+        var url = "api/name_list_edit";
+    }
 
-    var url = "api/name_list_edit";
+    if (action === "delete") {
+        var url = "api/name_list_delete";
+    }
 
     $.ajax({
         type: 'POST',
