@@ -22,11 +22,11 @@ function updateTable(jsonData){
 
         var formatPhone = jsonData[i].phone;
         formatPhone  = formatPhone.substring(0, 3) + "-" + formatPhone.substring(3, 6) + "-" + formatPhone.substring(6, 10);
-        myTable.after("<tr class='removeable'><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td>" + "<td><button type='button' name='delete' class='deleteButton btn' value='" + jsonData[i].id + "'>Delete</button></td>" + "</tr>");
+        myTable.after("<tr class='removeable'><td>" + jsonData[i].id + "</td><td>" + jsonData[i].first + "</td><td>" + jsonData[i].last + "</td><td>" + jsonData[i].email + "</td><td>" + formatPhone + "</td><td>" + jsonData[i].birthday + "</td>" + "<td><button type='button' name='delete' class='deleteButton btn' value='" + jsonData[i].id + "'>Delete</button></td>" + "<td><button type='button' name='edit' class='editButton btn' value='" + jsonData[i].id + "'>Edit</button></td>" + "</tr>");
     }
-    var deleteButtons = $('.deleteButton');
-    deleteButtons.on("click", deleteItem);
-
+    $('.deleteButton').on("click", deleteItem);
+    $(".editButton").on("click", editItem);
+    
 }
 
 function showDialogAdd() {
@@ -63,16 +63,35 @@ addItemButton.on("click", showDialogAdd);
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", validateChanges);
 
+
 function deleteItem(e) {
-    console.debug(e.target.value);
     var data = {
       "id" : e.target.value
     };
     jqueryPostJSONButtonAction(data, "delete");
 }
 
+function editItem(e) {
+    console.log(e.target.value);
+    var id = e.target.value;
+    var firstName = e.target.parentNode.parentNode.querySelectorAll("td")[1].innerHTML;
+    var lastName = e.target.parentNode.parentNode.querySelectorAll("td")[2].innerHTML;
+    var email = e.target.parentNode.parentNode.querySelectorAll("td")[3].innerHTML;
+    var number = e.target.parentNode.parentNode.querySelectorAll("td")[4].innerHTML;
+    var birthday = e.target.parentNode.parentNode.querySelectorAll("td")[5].innerHTML;
+
+    $('#id').val(id);
+    $('#firstName').val(firstName);
+    $('#lastName').val(lastName);
+    $('#email').val(email);
+    $('#phoneNumber').val(number);
+    $('#birthday').val(birthday);
+    $('#myModal').modal('show');
+}
+
 function validateChanges() {
 
+    var id = $('#id');
     var firstName = $('#firstName');
     var lastName = $('#lastName');
     var email = $('#email');
@@ -137,12 +156,26 @@ function validateChanges() {
 
     if(firstName.hasClass("is-valid") &&  lastName.hasClass("is-valid") &&
         email.hasClass("is-valid") && phone.hasClass("is-valid") && birthday.hasClass("is-valid")){
-        var data = {first : firstName.val(),
-                last : lastName.val(),
+        console.log(id.val());
+        if(id.val() === "") {
+            var data = {
+                first: firstName.val(),
+                last: lastName.val(),
                 email: email.val(),
                 phone: phone.val(),
                 birthday: birthday.val()
-        };
+            };
+        }
+        else{
+            data = {
+                id: id.val(),
+                first: firstName.val(),
+                last: lastName.val(),
+                email: email.val(),
+                phone: phone.val(),
+                birthday: birthday.val()
+            }
+        }
         jqueryPostJSONButtonAction(data, "edit");
 
     }

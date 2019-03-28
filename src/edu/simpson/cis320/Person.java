@@ -22,7 +22,10 @@ public class Person {
     public void setEmail(String email) { this.email = email; }
 
     public String getPhone() {return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public void setPhone(String phone)
+    {   phone = phone.replace("-", "") ;
+        this.phone = phone;
+    }
 
     public String getBirthday() {return birthday; }
     public void setBirthday(String birthday) { this.birthday = birthday; }

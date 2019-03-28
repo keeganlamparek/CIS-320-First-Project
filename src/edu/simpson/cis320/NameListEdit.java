@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import javax.servlet.annotation.WebServlet;
 
 @WebServlet(name = "NameListEdit")
@@ -47,26 +49,39 @@ public class NameListEdit extends javax.servlet.http.HttpServlet {
         // Great! Now we want to use GSON to parse the object, and pop it into our business object. Field
         // names have to match. That's the magic.
         Gson gson = new Gson();
-        Person fromJson = gson.fromJson(requestString, Person.class);
+        JsonObject root = new Gson().fromJson(requestString, JsonObject.class);
 
-        // Make sure our field was set.
-        out.println("Object test: "+ fromJson.getFirst());
-        out.println("Object test: "+ fromJson.getLast());
-        out.println("Object test: "+ fromJson.getEmail());
-        out.println("Object test: "+ fromJson.getPhone());
-        out.println("Object test: "+ fromJson.getBirthday());
 
-        Matcher firstNameMatcher = firstNamePattern.matcher(fromJson.getFirst());
-        Matcher lastNameMatcher = lastNamePattern.matcher(fromJson.getLast());
-        Matcher emailMatcher = emailPattern.matcher(fromJson.getEmail());
-        Matcher phoneMatcher = phonePattern.matcher(fromJson.getPhone());
-        Matcher birthdayMatcher = birthdayPattern.matcher(fromJson.getBirthday());
+        if (root.has("id")){
+            int id = root.get("id").getAsInt();
+            Person fromJson = gson.fromJson(requestString, Person.class);
+            if (isValid(fromJson)) {
+                PersonDAO.updatePerson(fromJson, id);
+            }
+        }
+        else {
+            Person fromJson = gson.fromJson(requestString, Person.class);
+            if (isValid(fromJson)) {
+                PersonDAO.setPeople(fromJson);
+            }
+        }
+    }
 
-        if (firstNameMatcher.find() && lastNameMatcher.find() && emailMatcher.find() && phoneMatcher.find()
-        && birthdayMatcher.find()){
-            PersonDAO.setPeople(fromJson);
+    private boolean isValid(Person person){
+        Matcher firstNameMatcher = firstNamePattern.matcher(person.getFirst());
+        Matcher lastNameMatcher = lastNamePattern.matcher(person.getLast());
+        Matcher emailMatcher = emailPattern.matcher(person.getEmail());
+        Matcher phoneMatcher = phonePattern.matcher(person.getPhone());
+        Matcher birthdayMatcher = birthdayPattern.matcher(person.getBirthday());
+
+        if(firstNameMatcher.find() && lastNameMatcher.find() && emailMatcher.find() && phoneMatcher.find()
+                && birthdayMatcher.find()){
+            return true;
         }
 
+        else{
+            return false;
+        }
     }
 
 }

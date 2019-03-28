@@ -55,6 +55,38 @@ public class PersonDAO {
         }
     }
 
+    public static void updatePerson(Person person, int id){
+        log.log(Level.FINE, "Set people");
+        try {
+            connection = DBHelper.getConnection();
+            String sql = "UPDATE person SET first = ?, last = ?, email = ?, phone = ?, birthday = ? WHERE id = ?";
+            stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, person.getFirst());
+            stmt.setString(2, person.getLast());
+            stmt.setString(3, person.getEmail());
+            stmt.setString(4, person.getPhone());
+            stmt.setString(5, person.getBirthday());
+            stmt.setInt(6, id);
+            stmt.execute();
+        }
+        catch (SQLException se) {
+            log.log(Level.SEVERE, "SQL Error", se ); }
+        catch (Exception e) {
+            log.log(Level.SEVERE, "Error", e ); }
+
+        finally {
+            // Ok, close our result set, statement, and connection
+            try { rs.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+            try { stmt.close(); } catch (Exception e) { log.log(Level.SEVERE, "Error", e ); }
+            try {
+                connection.close();
+            } catch (Exception e)
+            {
+                log.log(Level.SEVERE, "Error", e ); }
+        }
+    }
+
     public static void deletePerson(int id) {
         log.log(Level.FINE, "Delete person");
 
